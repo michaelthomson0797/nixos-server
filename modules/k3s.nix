@@ -29,20 +29,11 @@ in {
           if cfg.init
           then ""
           else meta.k3sToken;
-        extraFlags =
-          [
-            "--kubelet-arg=allowed-unsafe-sysctls=net.ipv4.*"
-          ]
-          ++ (
-            if cfg.init
-            then [
-              "--disable servicelb"
-              "--disable traefik"
-              "--disable local-storage"
-              "--write-kubeconfig-mode \"0644\""
-            ]
-            else []
-          );
+        disable = ["traefik" "servicelb" "local-storage"];
+        extraFlags = [
+          "--kubelet-arg=allowed-unsafe-sysctls=net.ipv4.*"
+          "--write-kubeconfig-mode \"0644\""
+        ];
       };
     };
   };
