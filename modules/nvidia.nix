@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   hardware.nvidia = {
@@ -29,5 +30,8 @@
       runtime_engine = ""
       runtime_root = ""
       runtime_type = "io.containerd.runc.v2"
+
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+      BinaryName = "${lib.getOutput "tools" config.hardware.nvidia-container-toolkit.package}/bin/nvidia-container-runtime"
   '';
 }
